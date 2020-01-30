@@ -3,12 +3,14 @@
       <div class="row justify-content-center">
          <div class="col-12 col-lg-8">
             <div class="chat-box">
-               <p class="recever-name">Name</p>
+               <p class="recever-name">Sender Name</p>
                <div class="msg-section">
                   <div v-for="message in messages">
-                     <div class="single-msg" :class="message.userName === userName.displayName?'sent-msg':'receive-msg'">
-                        <div class="msg">{{message.message}}</div>
-                        <span class="time">{{getTime(message.time)}}  </span> <span class="name" v-if="message.userName !== userName.displayName">- {{message.userName}}</span>
+                     <div class="single-msg" :class="message.data().userName === userName.displayName?'sent-msg':'receive-msg'">
+                        <div class="msg">{{message.data().message}}</div>
+                        <span class="time">{{getTime(message)}}  </span> <span class="name" v-if="message.data().userName !== userName.displayName">- {{message.data().userName}}</span>
+                        <span class="dlt-btn" @click="dltMsg(message)" v-if="message.data().userName === userName.displayName">&times</span>
+
                      </div>
                   </div>
                </div>
@@ -37,29 +39,6 @@ export default {
       }
    },
    methods: {
-      // submitName(){
-      //    if(this.name.trim()){
-      //       this.$http.post('https://test-app-5b863.firebaseio.com/posts.json', {
-      //         name: this.name
-      //       }).then( function(data){
-      //         this.name = ''
-      //         this.$http.get('https://test-app-5b863.firebaseio.com/posts.json')
-      //           .then( function(data){
-      //             return data.json()
-      //           })
-      //           .then(function(data){
-      //             this.post = data
-      //             for( var key in this.post){
-      //               this.post[key].id = key
-      //               this.post = data
-      //             }
-      //           })
-      //       })
-
-      //    }else{
-      //       this.showMsg = true
-      //    }
-      // }
       scrollToBottom(){
          var box = $('.msg-section')[0]
           box.scrollTop = box.scrollHeight;
@@ -81,18 +60,23 @@ export default {
             var allmsg = [];
 
             querySnapshot.forEach((doc) => {
-               allmsg.push(doc.data())
+               allmsg.push(doc)
             });
-            this.messages = allmsg;
+            this.messages = allmsg
 
             setTimeout( ()=> {
                this.scrollToBottom();
             },50)
          });
       },
-      getTime: function(post){
-         // return moment(post.time).format('MMM DD, YYYY. hh mm A')
-         return moment(post.time).format('hh mm A - MMM DD')
+      getTime: function(message){
+         var date =  new Date(message.data().time.seconds * 1000)
+         return moment(date).format('MMM DD, YYYY. hh mm A')
+      },
+      dltMsg(message){
+         db.collection("chat").doc(message.id).delete().then(function() {
+         }).catch(function(error) {
+         });
       }
    },
    created() {
@@ -143,6 +127,7 @@ a {
    color: #444;
    width: 70%;
    margin-bottom: 10px;
+   position: relative;
 }
 .input-group input{
    border-radius: 0;
@@ -172,6 +157,7 @@ a {
 .recever-name{
    padding: 10px 0;
    margin: 0;
+   margin-bottom: 5px;
    border-bottom: 1px solid #ddd;
 }
 .time{
@@ -179,6 +165,16 @@ a {
 }
 .name{
    font-size: 12px;
+}
+.dlt-btn{
+   color: #fff;
+   top: 50%;
+   font-weight: bold;
+   font-size: 18px;
+   position: absolute;
+   top: 0;
+   right: 5px;
+   cursor: pointer;
 }
 
 ::-webkit-scrollbar{

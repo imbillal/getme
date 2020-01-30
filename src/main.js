@@ -16,14 +16,14 @@ Vue.use(VueResource);
 // Required for side-effects
 require("firebase/firestore");
 var firebaseConfig = {
-    apiKey: "AIzaSyD99BHLM7H_kEkkax2x1uWb2-WafPgIFIA",
-    authDomain: "withlogin-2cf05.firebaseapp.com",
-    databaseURL: "https://withlogin-2cf05.firebaseio.com",
-    projectId: "withlogin-2cf05",
-    storageBucket: "withlogin-2cf05.appspot.com",
-    messagingSenderId: "900206055652",
-    appId: "1:900206055652:web:85f57d5daa258334d29cf1",
-    measurementId: "G-K8W9ZPNZVL"
+    apiKey: "AIzaSyAlhB1Rh4cCVwUtFZaHcy-wX4idHZcKbgU",
+    authDomain: "getmsg.firebaseapp.com",
+    databaseURL: "https://getmsg.firebaseio.com",
+    projectId: "getmsg",
+    storageBucket: "getmsg.appspot.com",
+    messagingSenderId: "1085089632362",
+    appId: "1:1085089632362:web:ce7e359a8e50ab8b017a13",
+    measurementId: "G-6CLH0B43GY"
   };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
