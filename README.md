@@ -2,6 +2,9 @@
 
 > A Vue.js project
 
+## Demo
+<a href="https://getmsg.web.app/">Live demo</a>
+
 ## Build Setup
 
 ``` bash
